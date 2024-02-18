@@ -1,14 +1,8 @@
-import { useState } from 'react'
-import './App.css'
+import * as React from 'react';
+import Homepage from './components/Homepage';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <h1>Welcome to OrbanFamily.org!</h1>
-    </>
-  )
+    <Homepage/>
+  );
 }
-
-export default App
