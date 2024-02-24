@@ -1,9 +1,8 @@
-// src/components/Homepage.js
-
 import React from 'react';
+
 import { Typography, Container } from '@mui/material';
 
-const Homepage = () => {
+const Dashboard = () => {
   return (
     <Container>
       <Typography variant="h4" style={{ marginTop: '20px' }}>
@@ -16,4 +15,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default Dashboard;
