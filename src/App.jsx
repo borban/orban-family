@@ -1,11 +1,15 @@
 import * as React from 'react';
-import SignIn from './pages/SignIn';
-
+import { Authenticator } from '@aws-amplify/ui-react';
 
 export default function App() {
   return (
-    <div>
-      <SignIn/>
-    </div >
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main>
+          <h1>Hello {user.username}</h1>
+          <button onClick={signOut}>Sign out</button>
+        </main>
+      )}
+    </Authenticator>
   );
 }
