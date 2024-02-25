@@ -5,8 +5,10 @@ import { AppBar, Button, Toolbar, Box } from '@mui/material';
 
 import Dashboard from '../pages/Dashboard';
 import Travel from '../pages/Travel';
+import Chat from '../pages/Chat';
+
 import { signOut } from 'aws-amplify/auth';
-import Signout from '../pages/Signout';
+
 
 const TopNavBar = () => {
     return (
@@ -24,6 +26,11 @@ const TopNavBar = () => {
                                 Travel
                             </Button>
                         </Link>
+                        <Link to="/chat">
+                            <Button variant="contained" disableElevation>
+                                Chat
+                            </Button>
+                        </Link>
                     </Box>
                     <Link to="/" sx={{ flex: 1 }}>
                             <Button variant="contained" disableElevation onClick={signOut} >
@@ -36,6 +43,7 @@ const TopNavBar = () => {
             <Routes>
                 <Route index element={<Dashboard />} />
                 <Route path="travel" element={<Travel />} />
+                <Route path="chat" element={<Chat />} />
             </Routes>
         </Box>
     );
