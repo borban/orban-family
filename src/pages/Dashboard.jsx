@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
+import familyImage from '../assets/family.jpg';
 
 const Dashboard = () => {
   return (
@@ -8,7 +9,7 @@ const Dashboard = () => {
         Welcome to the Orban Family Homepage!
       </Typography>
       <Box style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', maxHeight: '80vh' }}>
-        <img src='../public/family.jpg' alt="Family" style={{ maxWidth: '50%', height: 'auto' }} />
+        <img src={familyImage} alt="Family" style={{ maxWidth: '50%', height: 'auto' }} />
       </Box>
     </Box>
   );
