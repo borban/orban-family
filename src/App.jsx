@@ -6,13 +6,16 @@ import '@aws-amplify/ui-react/styles.css';
 import awsExports from './aws-exports';
 
 import TopNavBar from './components/TopNavBar';
+import { Container } from '@mui/material';
 
 Amplify.configure(awsExports);
 
 export default function App() {
   return (
     <Authenticator hideSignUp={true}>
-        <TopNavBar/>
+      <Container>
+        <TopNavBar />
+      </Container>
     </Authenticator>
   );
 }

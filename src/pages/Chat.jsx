@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import ChatBox from '../components/ChatBox';
 
 const Chat = () => {
   return (
-    <Container>
+    <Box>
       <ChatBox/>
-    </Container>
+    </Box>
   );
 };
 
