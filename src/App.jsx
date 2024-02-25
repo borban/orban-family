@@ -7,6 +7,7 @@ import awsExports from './aws-exports';
 
 import TopNavBar from './components/TopNavBar';
 import { Container } from '@mui/material';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 
 Amplify.configure(awsExports);
 
@@ -16,10 +17,7 @@ const components = {
 
     return (
       <View textAlign="center" padding={tokens.space.large} marginTop={'15vh'}>
-        <Image
-          alt="Amplify logo"
-          src="https://docs.amplify.aws/assets/logo-dark.svg"
-        />
+        <RocketLaunchIcon sx={{fontSize: 50}} color='primary'/>
       </View>
     );
   }
