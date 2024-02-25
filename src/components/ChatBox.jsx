@@ -41,10 +41,17 @@ const ChatBox = () => {
     setMessageInput('');
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevents the default behavior of a new line in the text area
+      sendMessage();
+    }
+  };
+
   return (
-    <Box component="main" maxWidth="xs">
-      <Paper elevation={3} style={{ padding: '20px' }}>
-        <div>
+    <Box component="main" maxWidth="xs" height="90vh">
+      <Paper elevation={3} style={{ padding: '20px', display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
+        <div style={{ overflowY: 'auto', flex: 1 }}>
           {messages.map((msg, index) => (
             <Typography key={index} variant="body1" gutterBottom>
               {msg}
@@ -53,20 +60,22 @@ const ChatBox = () => {
         </div>
         <TextField
           variant="outlined"
-          margin="normal"
+          margin='dense'
           fullWidth
           id="messageInput"
-          label="Type your message here"
+          label="Type message and hit enter"
           name="messageInput"
           value={messageInput}
           onChange={(e) => setMessageInput(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         <Button
-          fullWidth
+          type="button" // Change to "button" to prevent form submission
+          onClick={sendMessage}
           variant="contained"
           color="primary"
           endIcon={<SendIcon />}
-          onClick={sendMessage}
+          style={{ marginTop: '8px' }}
         >
           Send
         </Button>
