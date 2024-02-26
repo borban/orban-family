@@ -25,8 +25,8 @@ const components = {
 
 export default function App() {
   return (
-    <Authenticator hideSignUp={true} components={components} maxWidth='false'>
-      <Container maxWidth='false'>
+    <Authenticator hideSignUp={true} components={components}>
+      <Container disableGutters maxWidth='true'>
         <TopNavBar />
       </Container>
     </Authenticator>
