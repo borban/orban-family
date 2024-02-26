@@ -49,7 +49,7 @@ const ChatBox = () => {
   };
 
   return (
-    <Box component="main" maxWidth="xs" height="90vh">
+    <Box component="main" maxWidth="xs" height="85vh">
       <Paper elevation={3} style={{ padding: '20px', display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
         <div style={{ overflowY: 'auto', flex: 1 }}>
           {messages.map((msg, index) => (

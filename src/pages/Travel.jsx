@@ -10,7 +10,7 @@ const Travel = () => {
           <br /><br />
         </Typography>
         <Box height="90vh">
-          <iframe src="https://www.google.com/maps/d/embed?mid=19wt6SLUq2xUin43M8U8J1WQ6JbcZWxo&ehbc=2E312F" width="100%" height="100%"></iframe>
+          <iframe src="https://www.google.com/maps/d/embed?mid=19wt6SLUq2xUin43M8U8J1WQ6JbcZWxo&ehbc=2E312F" width="100%" height="90%"></iframe>
         </Box>
       </Paper>
     </Box>
