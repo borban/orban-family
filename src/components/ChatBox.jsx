@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Pusher from 'pusher-js';
-import { getCurrentUser } from 'aws-amplify/auth';
 import { Box, TextField, Button, Paper, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import { getCurrentUser } from 'aws-amplify/auth';
 
 const ChatBox = () => {
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     const pusher = new Pusher('44267b20dc02476545a0', {
@@ -25,25 +26,36 @@ const ChatBox = () => {
     };
   }, []);
 
-  async function currentAuthenticatedUser() {
-    try {
-      const { username } = await getCurrentUser();
-      return username;
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const cachedUsername = localStorage.getItem('username');
+        if (cachedUsername) {
+          setUsername(cachedUsername);
+        } else {
+          const { username } = await getCurrentUser();
+          setUsername(username);
+          localStorage.setItem('username', username);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchUsername();
+  }, []);
 
   const sendMessage = async () => {
-    const username = await currentAuthenticatedUser();
-    const fullMessage = `${username}: ${messageInput}`;
+    const time = '[' + new Date().toLocaleTimeString() + '] ';
+    
+    const fullMessage = time + `${username}: ${messageInput}`;
     await axios.post('https://2nkhu94g77.execute-api.us-east-1.amazonaws.com/default/messages', { message: fullMessage });
     setMessageInput('');
   };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Prevents the default behavior of a new line in the text area
+      e.preventDefault();
       sendMessage();
     }
   };
@@ -70,7 +82,7 @@ const ChatBox = () => {
           onKeyDown={handleKeyDown}
         />
         <Button
-          type="button" // Change to "button" to prevent form submission
+          type="button"
           onClick={sendMessage}
           variant="contained"
           color="primary"
