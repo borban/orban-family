@@ -50,7 +50,7 @@ const ChatBox = () => {
     const formattedTime = '[ ' + currentTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + '] ';
     
     const fullMessage = formattedTime + `${username}: ${messageInput}`;
-    await axios.post('https://2nkhu94g77.execute-api.us-east-1.amazonaws.com/default/messages', { message: fullMessage });
+    await axios.post('https://ldbesdwsmtdagjlgwd3rzftuyy0vyriu.lambda-url.us-east-1.on.aws/', { message: fullMessage });
     setMessageInput('');
   };
 
