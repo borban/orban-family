@@ -46,9 +46,10 @@ const ChatBox = () => {
   }, []);
 
   const sendMessage = async () => {
-    const time = '[' + new Date().toLocaleTimeString() + '] ';
+    const currentTime = new Date(new Date().toLocaleString('en', { timeZone: 'America/Chicago' }));
+    const formattedTime = '[ ' + currentTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + '] ';
     
-    const fullMessage = time + `${username}: ${messageInput}`;
+    const fullMessage = formattedTime + `${username}: ${messageInput}`;
     await axios.post('https://2nkhu94g77.execute-api.us-east-1.amazonaws.com/default/messages', { message: fullMessage });
     setMessageInput('');
   };
