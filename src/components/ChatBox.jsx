@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Pusher from 'pusher-js';
-import { Box, TextField, Button, Paper, Typography } from '@mui/material';
+import { Box, TextField, Button, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { getCurrentUser } from 'aws-amplify/auth';
 
@@ -62,8 +62,7 @@ const ChatBox = () => {
   };
 
   return (
-    <Box component="main" maxWidth="xs" height="85vh">
-      <Paper elevation={3} style={{ padding: '20px', display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
+    <Box>
         <div style={{ overflowY: 'auto', flex: 1 }}>
           {messages.map((msg, index) => (
             <Typography key={index} variant="body1" gutterBottom>
@@ -92,7 +91,6 @@ const ChatBox = () => {
         >
           Send
         </Button>
-      </Paper>
     </Box>
   );
 };
