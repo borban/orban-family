@@ -1,28 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Pusher from 'pusher-js';
 import { Box, TextField, Button, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { getCurrentUser } from 'aws-amplify/auth';
+import { w3cwebsocket as W3CWebSocket } from 'websocket';
 
 const ChatBox = () => {
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
   const [username, setUsername] = useState('');
+  const [websocket, setWebsocket] = useState(null);
 
   useEffect(() => {
-    const pusher = new Pusher('44267b20dc02476545a0', {
-      cluster: 'mt1',
-      encrypted: true,
-    });
+    const ws = new W3CWebSocket('wss://jxehlc264l.execute-api.us-east-1.amazonaws.com/production/');
 
-    const channel = pusher.subscribe('my-channel');
-    channel.bind('my-event', (data) => {
-      setMessages((prevMessages) => [...prevMessages, data.message]);
-    });
+    ws.onopen = () => {
+      console.log('WebSocket connection opened');
+    };
+
+    ws.onmessage = (event) => {
+      // Use the received data directly as a string
+      const message = event.data;
+      setMessages((prevMessages) => [...prevMessages, message]);
+    };
+    
+
+    setWebsocket(ws);
 
     return () => {
-      pusher.unsubscribe('my-channel');
+      if (ws.readyState === W3CWebSocket.OPEN || ws.readyState === W3CWebSocket.CONNECTING) {
+        ws.close();
+      }
     };
   }, []);
 
@@ -45,14 +52,32 @@ const ChatBox = () => {
     fetchUsername();
   }, []);
 
-  const sendMessage = async () => {
+  const sendMessage = () => {
+    if (!websocket) {
+      console.error('WebSocket connection not established.');
+      return;
+    }
+  
     const currentTime = new Date(new Date().toLocaleString('en', { timeZone: 'America/Chicago' }));
     const formattedTime = '[' + currentTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + '] ';
-    
+  
     const fullMessage = formattedTime + `${username}: ${messageInput}`;
-    await axios.post('https://2nkhu94g77.execute-api.us-east-1.amazonaws.com/default/messages', { message: fullMessage });
+  
+    // Construct the message object
+    const messageObject = {
+      action: 'sendMessage',
+      message: fullMessage
+    };
+  
+    // Stringify the message object
+    const finalMessage = JSON.stringify(messageObject);
+    
+    // Send the message via WebSocket
+    websocket.send(finalMessage);
+    console.log(finalMessage);
     setMessageInput('');
   };
+  
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -63,34 +88,34 @@ const ChatBox = () => {
 
   return (
     <Box>
-        <div style={{ overflowY: 'auto', flex: 1 }}>
-          {messages.map((msg, index) => (
-            <Typography key={index} variant="body1" gutterBottom>
-              {msg}
-            </Typography>
-          ))}
-        </div>
-        <TextField
-          variant="outlined"
-          margin='dense'
-          fullWidth
-          id="messageInput"
-          label="Type message and hit enter"
-          name="messageInput"
-          value={messageInput}
-          onChange={(e) => setMessageInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <Button
-          type="button"
-          onClick={sendMessage}
-          variant="contained"
-          color="primary"
-          endIcon={<SendIcon />}
-          style={{ marginTop: '8px' }}
-        >
-          Send
-        </Button>
+      <div style={{ overflowY: 'auto', flex: 1 }}>
+        {messages.map((msg, index) => (
+          <Typography key={index} variant="body1" gutterBottom>
+            {msg}
+          </Typography>
+        ))}
+      </div>
+      <TextField
+        variant="outlined"
+        margin='dense'
+        fullWidth
+        id="messageInput"
+        label="Type message and hit enter"
+        name="messageInput"
+        value={messageInput}
+        onChange={(e) => setMessageInput(e.target.value)}
+        onKeyDown={handleKeyDown}
+      />
+      <Button
+        type="button"
+        onClick={sendMessage}
+        variant="contained"
+        color="primary"
+        endIcon={<SendIcon />}
+        style={{ marginTop: '8px' }}
+      >
+        Send
+      </Button>
     </Box>
   );
 };
