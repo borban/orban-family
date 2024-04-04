@@ -71,7 +71,7 @@ const ChatBox = () => {
       return;
     }
 
-    const currentTime = new Date(new Date().toLocaleString('en', { timeZone: 'America/Chicago' }));
+    const currentTime = new Date(new Date().toLocaleString('en', { timeZone: 'America/Denver' }));
     const formattedTime = '[' + currentTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) + '] ';
 
     const fullMessage = formattedTime + `${username}: ${messageInput}`;
